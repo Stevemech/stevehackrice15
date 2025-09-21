@@ -1,0 +1,182 @@
+/* Dashboard.css - Mobile First Design */
+.dashboard {
+  background: var(--background);
+  min-height: 100vh;
+  padding-bottom: 100px; /* Increased space for bottom nav */
+  position: relative;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease;
+}
+
+/* Stats Header */
+.stats-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+}
+
+.stat-value {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.stat-item.xp .stat-value {
+  color: var(--info-color);
+}
+
+/* Section Styles */
+.daily-todo-section,
+.learning-center-section {
+  padding: 1.5rem 1rem;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* Task Cards */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  min-height: 140px;
+}
+
+.task-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--box-shadow);
+}
+
+.task-icon-container {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+  background: var(--background-light);
+  border-radius: 20px;
+}
+
+.task-icon {
+  font-size: 5rem;
+}
+
+.task-icon-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.required-indicator {
+  color: var(--danger-color);
+  font-size: 1.1rem;
+}
+
+.task-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.task-card.completed {
+  opacity: 0.6;
+}
+
+.task-check {
+  position: absolute;
+  right: 1rem;
+  width: 24px;
+  height: 24px;
+  background: #10B981;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Bottom Navigation styles are in BottomNavigation.css */
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .user-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+  }
+  
+  .quick-actions button {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .dashboard {
+    padding: 2rem 2rem 100px 2rem; /* Keep bottom padding for nav spacing */
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .user-stats {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+}

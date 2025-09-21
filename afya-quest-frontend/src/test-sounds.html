@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .correct-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .incorrect-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daily Questions Sound Test</h1>
+    <p>Click the buttons to test the sound effects:</p>
+    
+    <button class="correct-btn" onclick="testCorrectSound()">
+        🎉 Test Correct Answer Sound
+    </button>
+    
+    <button class="incorrect-btn" onclick="testIncorrectSound()">
+        ❌ Test Incorrect Answer Sound
+    </button>
+    
+    <div id="status" class="status">
+        Ready to test sounds. Click a button above.
+    </div>
+
+    <script>
+        // Simplified version of the sound manager for testing
+        class TestSoundManager {
+            constructor() {
+                this.audioContext = null;
+                this.enabled = true;
+                this.initAudioContext();
+            }
+
+            initAudioContext() {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (error) {
+                    console.warn('AudioContext not supported:', error);
+                    this.enabled = false;
+                }
+            }
+
+            async resumeAudioContext() {
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    try {
+                        await this.audioContext.resume();
+                        console.log('Audio context resumed');
+                    } catch (error) {
+                        console.warn('Failed to resume audio context:', error);
+                    }
+                }
+            }
+
+            createDingSound() {
+                if (!this.audioContext) return null;
+
+                const sampleRate = this.audioContext.sampleRate;
+                const duration = 0.5;
+                const length = sampleRate * duration;
+                const buffer = this.audioContext.createBuffer(1, length, sampleRate);
+                const data = buffer.getChannelData(0);
+
+                for (let i = 0; i < length; i++) {
+                    const time = i / sampleRate;
+                    const freq1 = Math.sin(2 * Math.PI * 800 * time);
+                    const freq2 = Math.sin(2 * Math.PI * 1200 * time) * 0.5;
+                    const freq3 = Math.sin(2 * Math.PI * 1600 * time) * 0.25;
+                    const envelope = Math.exp(-time * 3);
+                    data[i] = (freq1 + freq2 + freq3) * envelope * 0.3;
+                }
+
+                return buffer;
+            }
+
+            createErrorSound() {
+                if (!this.audioContext) return null;
+
+                const sampleRate = this.audioContext.sampleRate;
+                const duration = 0.3;
+                const length = sampleRate * duration;
+                const buffer = this.audioContext.createBuffer(1, length, sampleRate);
+                const data = buffer.getChannelData(0);
+
+                for (let i = 0; i < length; i++) {
+                    const time = i / sampleRate;
+                    const freq = Math.sin(2 * Math.PI * 300 * time);
+                    const envelope = Math.exp(-time * 2);
+                    data[i] = freq * envelope * 0.2;
+                }
+
+                return buffer;
+            }
+
+            playBuffer(buffer) {
+                if (!this.audioContext || !buffer) return;
+
+                const source = this.audioContext.createBufferSource();
+                const gainNode = this.audioContext.createGain();
+                
+                source.buffer = buffer;
+                source.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                gainNode.gain.value = 0.3;
+                source.start();
+            }
+
+            async playCorrectSound() {
+                if (!this.enabled) return;
+                
+                await this.resumeAudioContext();
+                const buffer = this.createDingSound();
+                if (buffer) {
+                    this.playBuffer(buffer);
+                    updateStatus('✅ Correct answer sound played!', '#d4edda');
+                }
+            }
+
+            async playIncorrectSound() {
+                if (!this.enabled) return;
+                
+                await this.resumeAudioContext();
+                const buffer = this.createErrorSound();
+                if (buffer) {
+                    this.playBuffer(buffer);
+                    updateStatus('❌ Incorrect answer sound played!', '#f8d7da');
+                }
+            }
+        }
+
+        const soundManager = new TestSoundManager();
+
+        function updateStatus(message, color) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.style.backgroundColor = color;
+        }
+
+        async function testCorrectSound() {
+            updateStatus('Playing correct answer sound...', '#fff3cd');
+            try {
+                await soundManager.playCorrectSound();
+            } catch (error) {
+                console.error('Error playing correct sound:', error);
+                updateStatus('Error playing sound: ' + error.message, '#f8d7da');
+            }
+        }
+
+        async function testIncorrectSound() {
+            updateStatus('Playing incorrect answer sound...', '#fff3cd');
+            try {
+                await soundManager.playIncorrectSound();
+            } catch (error) {
+                console.error('Error playing incorrect sound:', error);
+                updateStatus('Error playing sound: ' + error.message, '#f8d7da');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStatus('Sound manager initialized. Audio context state: ' + (soundManager.audioContext?.state || 'not available'), '#e2e3e5');
+        });
+    </script>
+</body>
+</html>

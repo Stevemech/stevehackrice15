@@ -1,0 +1,474 @@
+/* Itinerary.css */
+.itinerary {
+  min-height: 100vh;
+  background: var(--background);
+  transition: background-color 0.3s ease;
+  padding-bottom: 2rem;
+}
+
+.itinerary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--white);
+  transition: background-color 0.3s ease;
+  box-shadow: var(--box-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.itinerary-header h1 {
+  flex: 1;
+  text-align: center;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.map-view-btn {
+  background: none;
+  transition: background-color 0.3s ease;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Date Section */
+.date-section {
+  padding: 1.5rem 1rem;
+  background: var(--white);
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.date-section h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.summary {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Timeline */
+.timeline {
+  padding: 1.5rem 1rem;
+  position: relative;
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.7rem;
+  z-index: 2;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 7px;
+  top: 16px;
+  width: 2px;
+  height: calc(100% + 1.5rem);
+  background: #E5E7EB;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+/* Location Cards */
+.location-card {
+  margin-left: 2rem;
+  flex: 1;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.location-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.location-card.completed {
+  opacity: 0.7;
+}
+
+.location-time {
+  padding: 0.5rem 1rem;
+  background: #F3F4F6;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.location-content {
+  padding: 1rem;
+}
+
+.location-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.location-icon {
+  font-size: 1.75rem;
+}
+
+.location-info h3 {
+  margin: 0 0 0.25rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.address {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.location-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.location-notes {
+  padding: 0.5rem;
+  background: #FEF3C7;
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #92400E;
+  margin-bottom: 0.75rem;
+}
+
+.location-status {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Action Panel */
+.action-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: var(--white);
+  transition: background-color 0.3s ease;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.check-in-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #10B981;
+  transition: background-color 0.3s ease;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.check-in-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+}
+
+.complete-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #3B82F6;
+  transition: background-color 0.3s ease;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.complete-btn:hover {
+  background: #2563EB;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+}
+
+.completed-message {
+  width: 100%;
+  padding: 1rem;
+  background: #F0FDF4;
+  transition: background-color 0.3s ease;
+  color: #10B981;
+  border: 2px solid #10B981;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Progress Stats */
+.itinerary-stats {
+  margin: 2rem 1rem;
+  padding: 1.5rem;
+  background: var(--white);
+  transition: background-color 0.3s ease;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+}
+
+.itinerary-stats h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #E5E7EB;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3B82F6, #10B981);
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.in-progress-text {
+  text-align: center;
+  color: #F59E0B;
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0 0;
+  font-weight: 500;
+}
+
+/* Dark Mode Styles */
+.dark-theme .itinerary {
+  background: var(--background);
+}
+
+.dark-theme .itinerary-header {
+  background: #2a2a2a;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.dark-theme .itinerary-header h1 {
+  color: var(--text-primary);
+}
+
+.dark-theme .map-view-btn {
+  color: var(--text-primary);
+}
+
+.dark-theme .map-view-btn:hover {
+  background: #3a3a3a;
+  border-radius: 4px;
+}
+
+/* Date Section Dark Mode */
+.dark-theme .date-section {
+  background: #2a2a2a;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dark-theme .date-section h3 {
+  color: var(--text-primary);
+}
+
+.dark-theme .summary {
+  color: var(--text-secondary);
+}
+
+/* Timeline Dark Mode */
+.dark-theme .timeline {
+  background: var(--background);
+}
+
+.dark-theme .timeline-line {
+  background: #3a3a3a;
+}
+
+/* Location Cards Dark Mode */
+.dark-theme .location-card {
+  background: #333333;
+  border: 1px solid #404040;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.dark-theme .location-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border-color: var(--primary-color);
+}
+
+.dark-theme .location-card.completed {
+  opacity: 0.6;
+}
+
+.dark-theme .location-time {
+  background: #3a3a3a;
+  color: var(--text-primary);
+  border-bottom: 1px solid #404040;
+}
+
+.dark-theme .location-content {
+  background: #333333;
+}
+
+.dark-theme .location-info h3 {
+  color: var(--text-primary);
+}
+
+.dark-theme .address {
+  color: var(--text-secondary);
+}
+
+.dark-theme .meta-item {
+  color: var(--text-secondary);
+}
+
+.dark-theme .location-notes {
+  background: rgba(254, 243, 199, 0.1);
+  border: 1px solid rgba(254, 243, 199, 0.2);
+  color: #FFC107;
+}
+
+.dark-theme .location-status {
+  color: var(--text-primary);
+}
+
+.dark-theme .location-status.completed {
+  color: var(--success-color);
+}
+
+.dark-theme .location-status.pending {
+  color: #FFC107;
+}
+
+/* Action Panel Dark Mode */
+.dark-theme .action-panel {
+  background: #2a2a2a;
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+}
+
+.dark-theme .check-in-btn {
+  background: var(--success-color);
+  color: white;
+}
+
+.dark-theme .check-in-btn:hover {
+  background: #059669;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.4);
+}
+
+.dark-theme .complete-btn {
+  background: var(--info-color);
+  color: white;
+}
+
+.dark-theme .complete-btn:hover {
+  background: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(91,185,178,0.4);
+}
+
+.dark-theme .completed-message {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
+  border: 2px solid var(--success-color);
+}
+
+/* Progress Stats Dark Mode */
+.dark-theme .itinerary-stats {
+  background: #2a2a2a;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.dark-theme .itinerary-stats h3 {
+  color: var(--text-primary);
+}
+
+.dark-theme .progress-bar {
+  background: #3a3a3a;
+  border: 1px solid #404040;
+}
+
+.dark-theme .progress-fill {
+  background: linear-gradient(90deg, var(--info-color), var(--success-color));
+}
+
+.dark-theme .progress-text {
+  color: var(--text-secondary);
+}
+
+.dark-theme .in-progress-text {
+  color: #FFC107;
+}
+
+/* Timeline Markers Dark Mode */
+.dark-theme .timeline-marker {
+  box-shadow: 0 0 0 3px #2a2a2a;
+}
+
+.dark-theme .timeline-marker.completed {
+  background: var(--success-color);
+}
+
+.dark-theme .timeline-marker.pending {
+  background: #FFC107;
+}
+
+.dark-theme .timeline-marker.future {
+  background: #666666;
+}

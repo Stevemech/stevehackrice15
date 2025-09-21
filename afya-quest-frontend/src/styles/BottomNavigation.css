@@ -1,0 +1,118 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-top: 1px solid var(--border-color, #e0e0e0);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0 calc(env(safe-area-inset-bottom) + 8px);
+  box-shadow: var(--box-shadow);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+ .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 56px;
+  flex: 1;
+  max-width: 80px;
+  color: var(--text-secondary);
+}
+
+.nav-item:hover {
+  background-color: var(--background);
+  border-radius: 8px;
+}
+
+.nav-item.active {
+  color: var(--primary-color);
+}
+
+.nav-item.active .nav-icon {
+  transform: scale(1.1);
+}
+
+.nav-icon {
+  margin-bottom: 1px;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.nav-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+  margin-top: 1px;
+}
+
+.nav-item.active .nav-label {
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-item {
+    min-height: 50px;
+  }
+  
+  .nav-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .nav-label {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-label {
+    display: none;
+  }
+  
+  .nav-item {
+    min-height: 48px;
+  }
+  
+  .nav-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Add bottom padding to body when nav is present */
+body.has-bottom-nav {
+  padding-bottom: 72px;
+}
+
+@media (max-width: 768px) {
+  body.has-bottom-nav {
+    padding-bottom: 66px;
+  }
+}
+
+@media (max-width: 480px) {
+  body.has-bottom-nav {
+    padding-bottom: 60px;
+  }
+}

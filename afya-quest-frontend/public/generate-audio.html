@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Splash Audio</title>
+</head>
+<body>
+    <h1>Audio Generator for Splash Screen</h1>
+    <button id="play">Play Audio</button>
+    <button id="download">Download Audio</button>
+    
+    <script>
+        // Create audio context
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Function to create a soft, pleasant chime
+        function createSplashSound() {
+            const duration = 2.5; // seconds
+            const sampleRate = audioContext.sampleRate;
+            const length = duration * sampleRate;
+            const buffer = audioContext.createBuffer(2, length, sampleRate);
+            
+            for (let channel = 0; channel < 2; channel++) {
+                const channelData = buffer.getChannelData(channel);
+                
+                for (let i = 0; i < length; i++) {
+                    const t = i / sampleRate;
+                    
+                    // Create a pleasant chord progression
+                    // C major chord with gentle harmonics
+                    const c4 = 261.63; // C4
+                    const e4 = 329.63; // E4
+                    const g4 = 392.00; // G4
+                    const c5 = 523.25; // C5
+                    
+                    // Envelope for smooth fade in and out
+                    const attack = 0.1;
+                    const decay = 0.3;
+                    const sustain = 0.5;
+                    const release = 1.6;
+                    
+                    let envelope = 0;
+                    if (t < attack) {
+                        envelope = t / attack;
+                    } else if (t < attack + decay) {
+                        envelope = 1 - ((t - attack) / decay) * 0.3;
+                    } else if (t < attack + decay + sustain) {
+                        envelope = 0.7;
+                    } else if (t < duration) {
+                        envelope = 0.7 * (1 - ((t - attack - decay - sustain) / release));
+                    }
+                    
+                    // Apply exponential curve for smoother fade
+                    envelope = Math.pow(envelope, 2);
+                    
+                    // Generate the waveform
+                    let sample = 0;
+                    sample += Math.sin(2 * Math.PI * c4 * t) * 0.3;
+                    sample += Math.sin(2 * Math.PI * e4 * t) * 0.25;
+                    sample += Math.sin(2 * Math.PI * g4 * t) * 0.2;
+                    sample += Math.sin(2 * Math.PI * c5 * t) * 0.15;
+                    
+                    // Add a subtle shimmer effect
+                    sample += Math.sin(2 * Math.PI * (c5 * 2) * t) * 0.05 * Math.sin(t * 3);
+                    
+                    // Apply envelope and reduce overall volume
+                    channelData[i] = sample * envelope * 0.15;
+                    
+                    // Add tiny bit of stereo separation
+                    if (channel === 1) {
+                        channelData[i] *= 0.95;
+                    }
+                }
+            }
+            
+            return buffer;
+        }
+        
+        // Play button
+        document.getElementById('play').addEventListener('click', () => {
+            const buffer = createSplashSound();
+            const source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioContext.destination);
+            source.start();
+        });
+        
+        // Download button
+        document.getElementById('download').addEventListener('click', () => {
+            const buffer = createSplashSound();
+            const wav = audioBufferToWav(buffer);
+            const blob = new Blob([wav], { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'splash-sound.wav';
+            a.click();
+        });
+        
+        // Convert AudioBuffer to WAV
+        function audioBufferToWav(buffer) {
+            const length = buffer.length * buffer.numberOfChannels * 2 + 44;
+            const out = new ArrayBuffer(length);
+            const view = new DataView(out);
+            const channels = [];
+            let sample;
+            let offset = 0;
+            let pos = 0;
+            
+            // Write WAVE header
+            const setUint16 = (data) => {
+                view.setUint16(pos, data, true);
+                pos += 2;
+            };
+            const setUint32 = (data) => {
+                view.setUint32(pos, data, true);
+                pos += 4;
+            };
+            
+            // RIFF identifier
+            setUint32(0x46464952);
+            // file length
+            setUint32(length - 8);
+            // RIFF type
+            setUint32(0x45564157);
+            // format chunk identifier
+            setUint32(0x20746d66);
+            // format chunk length
+            setUint32(16);
+            // sample format (raw)
+            setUint16(1);
+            // channel count
+            setUint16(buffer.numberOfChannels);
+            // sample rate
+            setUint32(buffer.sampleRate);
+            // byte rate
+            setUint32(buffer.sampleRate * buffer.numberOfChannels * 2);
+            // block align
+            setUint16(buffer.numberOfChannels * 2);
+            // bits per sample
+            setUint16(16);
+            // data chunk identifier
+            setUint32(0x61746164);
+            // data chunk length
+            setUint32(length - pos - 4);
+            
+            // write interleaved data
+            for (let i = 0; i < buffer.numberOfChannels; i++) {
+                channels.push(buffer.getChannelData(i));
+            }
+            
+            while (pos < length) {
+                for (let i = 0; i < buffer.numberOfChannels; i++) {
+                    sample = Math.max(-1, Math.min(1, channels[i][offset]));
+                    sample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
+                    view.setInt16(pos, sample, true);
+                    pos += 2;
+                }
+                offset++;
+            }
+            
+            return out;
+        }
+    </script>
+</body>
+</html>
