@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.css": "/stevehackrice15/static/css/main.c5eb1f3f.css",
+    "main.js": "/stevehackrice15/static/js/main.5db1bce8.js",
+    "index.html": "/stevehackrice15/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.c5eb1f3f.css",
+    "static/js/main.5db1bce8.js"
+  ]
+}
